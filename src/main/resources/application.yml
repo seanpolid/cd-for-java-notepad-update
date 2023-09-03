@@ -1,0 +1,17 @@
+spring:
+  profiles:
+    active: dev
+   
+---  
+spring:
+  config:
+    activate:
+      on-profile: dev
+      
+  datasource:
+    url: jdbc:mysql://localhost:3307/notepad
+    username: root
+    password: root
+    
+  flyway:
+    enabled: true
