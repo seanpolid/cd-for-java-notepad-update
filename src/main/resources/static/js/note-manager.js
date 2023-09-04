@@ -2,6 +2,7 @@
 
 const noteManager = {
 
+    tbody: document.getElementsByTagName('tbody')[0],
     addButton: document.getElementById('addButton'),
     submitButton: document.getElementById('submit'),
     closeButton: document.getElementById('close'),
@@ -56,7 +57,9 @@ const noteManager = {
             body: JSON.stringify(note)
         })
         .then(response => {
+            noteManager.toggleWindow();
             noteManager.displaySuccess();
+            noteManager.addRow(note);
         })
         .catch(error => {
             console.log(error);
@@ -64,7 +67,24 @@ const noteManager = {
     },
 
     displaySuccess: () => {
+        
+    },
 
+    addRow: (note) => {
+        const row = document.createElement('tr');
+        const titleCell = document.createElement('td');
+        const contentCell = document.createElement('td');
+        const countCell = document.createElement('td');
+        const numWords = note.content.split(' ').length;
+
+        titleCell.append(document.createTextNode(note.title));
+        contentCell.append(document.createTextNode(note.content));
+        countCell.append(document.createTextNode(numWords));
+
+        row.append(titleCell);
+        row.append(contentCell);
+        row.append(countCell);
+        noteManager.tbody.append(row);
     }
 };
 

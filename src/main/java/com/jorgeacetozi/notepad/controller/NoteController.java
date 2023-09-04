@@ -33,9 +33,7 @@ public class NoteController {
 	@RequestMapping("/")
 	public ModelAndView index() {
 		ModelAndView modelAndView = new ModelAndView("index");
-		//List<Note> notes = noteService.findAll();
-		List<Note> notes = new ArrayList<>();
-		notes.add(new Note("Title", "Description"));
+		List<Note> notes = noteService.findAll();
 		modelAndView.addObject("notes", notes);
 		return modelAndView;
 	}
