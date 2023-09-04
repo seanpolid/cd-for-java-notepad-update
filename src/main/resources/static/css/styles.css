@@ -44,6 +44,49 @@ tbody tr:nth-child(2n + 1) {
     z-index: 1;
 }
 
+#message {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+    text-align: center;
+    padding: 5px 0;
+}
+
+.error {
+    background: repeating-linear-gradient(
+        -45deg,
+        rgb(253, 64, 64),
+        rgb(253, 64, 64) 20px,
+        red 0px,
+        red 40px
+    );
+    color: white;
+}
+
+.success {
+    background: repeating-linear-gradient(
+        -45deg,
+        rgb(153, 253, 153),
+        rgb(153, 253, 153) 20px,
+        rgb(116, 249, 116) 0px,
+        rgb(116, 249, 116) 40px
+    );
+    color: black;
+    animation: 6s 1 normal fadeout;
+}
+
+@keyframes fadeout {
+    from {
+        opacity: 100%;
+    }
+
+    to {
+        opacity: 0%;
+    }
+}
+
 #modal[class*="hide"] {
     display: none;
 }
@@ -58,7 +101,7 @@ tbody tr:nth-child(2n + 1) {
     top: 0;
     left: calc(50vw - 50vw / 2);
     top: calc(50vh - 20em / 2);
-    z-index: 2;
+    z-index: 3;
     box-shadow: 5px 5px 5px rgba(51, 51, 51, 0.679);
 }
 

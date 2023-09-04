@@ -11,6 +11,9 @@ const noteManager = {
     modal: document.getElementById('modal'),
     hideLayer: document.getElementById('hideLayer'),
     hideClass: 'hide',
+    message: document.getElementById('message'),
+    successClass: 'success',
+    errorClass: 'error',
 
 	init: () => {
         noteManager.hideLayer.addEventListener('click', noteManager.toggleWindow, false);
@@ -22,6 +25,11 @@ const noteManager = {
     toggleWindow: (event) => {
         noteManager.modal.classList.toggle(noteManager.hideClass);
         noteManager.hideLayer.classList.toggle(noteManager.hideClass);
+
+        // Always reset message
+        noteManager.message.textContent = "";
+        noteManager.message.classList.remove(noteManager.successClass);
+        noteManager.message.classList.remove(noteManager.errorClass);
     },
 
     handleSubmit: (event) => {
@@ -31,7 +39,8 @@ const noteManager = {
         const content = noteManager.contentInput.value;
 
         if (noteManager.isEmpty(title) || noteManager.isEmpty(content)) {
-            noteManager.displayError();
+            const message = "Title and Content cannot be empty.";
+            noteManager.displayError(message);
         } else {
             const note = {
                 title: title,
@@ -48,6 +57,11 @@ const noteManager = {
         return !pattern.test(string);
     },
 
+    displayError: (message) => {
+        noteManager.message.append(document.createTextNode(message));
+        noteManager.message.classList.add(noteManager.errorClass);
+    },
+
     postNote: (note) => {
         fetch("/notes", {
             method: "POST",
@@ -62,12 +76,21 @@ const noteManager = {
             noteManager.addRow(note);
         })
         .catch(error => {
-            console.log(error);
+            const message = "An occurred while trying to save. Please try again later.";
+            noteManager.displayError(message);
         });
     },
 
     displaySuccess: () => {
-        
+        const successMessage = document.createTextNode(
+            "Your note was successfully saved!"
+        );
+        noteManager.message.append(successMessage);
+        noteManager.message.classList.add(noteManager.successClass);
+        setTimeout(() => {
+            noteManager.message.classList.remove(noteManager.successClass);
+            noteManager.message.textContent = "";
+        }, 5000);
     },
 
     addRow: (note) => {
