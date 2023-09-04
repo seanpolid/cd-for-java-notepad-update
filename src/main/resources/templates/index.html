@@ -2,53 +2,59 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Notepad</title>
+    <link rel="stylesheet" href="/css/styles.css" />
 </head>
 <body>
-	<div class="container">
-		<h1>Your Notes</h1>
-		<table>
-			<thead>
-				<tr>
-					<th>Title</th>
-					<th>Content</th>
-					<th>Word Count</th>
-				</tr>
-			</thead>
+    <div id="hideLayer"></div>
+    <h1>Your Notes</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Word Count</th>
+            </tr>
+        </thead>
 
-			<tbody>
-				<tr th:each="note : ${notes}">
-					<td th:text="${note.title}"></td>
-					<td th:text="${note.content}"></td>
-					<td th:text="${note.wordCount}"></td>
-				</tr>
-			</tbody>
-		</table>
+        <tbody>
+            <tr th:each="note : ${notes}">
+                <td th:text="${note.title}"></td>
+                <td th:text="${note.content}"></td>
+                <td th:text="${note.wordCount}"></td>
+            </tr>
+        </tbody>
+    </table>
 
-		<div id="newNoteModal" tabindex="-1" role="dialog" aria-labelledby="newNoteModalLabel">
-			<div role="document">
-                <h2 id="newNoteModalLabel">New Note</h2>
-                <form>
-                    <div>
-                        <label for="title" class="control-label">Title</label> 
-                        <input type="text" id="title" />
-                    </div>
-                    <div>
-                        <label for="content">Content</label>
-                        <textarea id="content"></textarea>
-                    </div>
+    <button type="button" id="addButton">Add A Note</button>
 
-                    <button type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <button type="button" data-dismiss="modal">Close</button>
-                    <input id="submit" type="submit" value="Create" />
-                </form>
+    <div id="modal" tabindex="-1" role="dialog" aria-labelledby="newNoteModalLabel" class="hide">
+        <h2 id="newNoteModalLabel">New Note</h2>
+        
+        <form>
+            <div>
+                <label for="title" class="control-label">Title</label> 
+                <input type="text" id="title" />
             </div>
-		</div>
-	</div>
+
+            <div>
+                <label for="content">Content</label>
+                <textarea id="content"></textarea>
+            </div>
+        </form>
+
+        <div id="options">
+            <button type="button" data-dismiss="modal">Close</button>
+            <button id="submit" type="submit">
+                Create
+            </button>
+        </div>
+
+        <button type="button" data-dismiss="modal" aria-label="Close" id="close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 
 	<script src="/js/note-manager.js">
 	</script>
-
 </body>
 </html>

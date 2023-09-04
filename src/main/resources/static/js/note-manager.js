@@ -2,13 +2,26 @@
 
 const noteManager = {
 
+    addButton: document.getElementById('addButton'),
     submitButton: document.getElementById('submit'),
+    closeButton: document.getElementById('close'),
     titleInput: document.getElementById('title'),
     contentInput: document.getElementById('content'),
+    modal: document.getElementById('modal'),
+    hideLayer: document.getElementById('hideLayer'),
+    hideClass: 'hide',
 
 	init: () => {
+        noteManager.hideLayer.addEventListener('click', noteManager.toggleWindow, false);
+        noteManager.addButton.addEventListener('click', noteManager.toggleWindow, false);
+        noteManager.closeButton.addEventListener('click', noteManager.toggleWindow, false);
         noteManager.submitButton.addEventListener('click', noteManager.handleSubmit, false);
 	},
+
+    toggleWindow: (event) => {
+        noteManager.modal.classList.toggle(noteManager.hideClass);
+        noteManager.hideLayer.classList.toggle(noteManager.hideClass);
+    },
 
     handleSubmit: (event) => {
         event.preventDefault();
@@ -16,33 +29,43 @@ const noteManager = {
         const title = noteManager.titleInput.value;
         const content = noteManager.contentInput.value;
 
-        const note = new Note(title, content);
-        const noteString = JSON.stringify(note);
-        console.log(noteString);
+        if (noteManager.isEmpty(title) || noteManager.isEmpty(content)) {
+            noteManager.displayError();
+        } else {
+            const note = {
+                title: title,
+                content: content
+            };
+            noteManager.postNote(note);
+            noteManager.titleInput.value = "";
+            noteManager.contentInput.value = "";
+        }
+    },
+
+    isEmpty: (string) => {
+        const pattern = /\w/;
+        return !pattern.test(string);
+    },
+
+    postNote: (note) => {
         fetch("/notes", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: noteString
+            body: JSON.stringify(note)
         })
         .then(response => {
-            console.log("success!", response.body);
+            noteManager.displaySuccess();
         })
         .catch(error => {
-            console.log("error:", error);
+            console.log(error);
         });
-    }
-}
+    },
 
-class Note {
-    title;
-    content;
+    displaySuccess: () => {
 
-    constructor(title, content) {
-        this.title = title;
-        this.content = content;
     }
-}
+};
 
 noteManager.init();
