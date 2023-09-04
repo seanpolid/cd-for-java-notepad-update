@@ -15,3 +15,20 @@ spring:
     
   flyway:
     enabled: true
+    
+---
+
+test_mysql_host: ${ENV_TEST_MYSQL_HOST:localhost}
+
+spring:
+  config:
+    activate:
+      on-profile: test
+      
+  datasource:
+    url: jdbc:mysql://${test_mysql_host}:3307/notepad
+    username: root
+    password: root
+     
+  flyway:
+    enabled: true
