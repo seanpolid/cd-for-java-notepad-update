@@ -3,7 +3,7 @@ I am not the creator of most of the code found in this repository. The original 
 <br /> <br />
 <ol>
   <li>Docker for containerization</li>
-  <li>Flywheel for database migrations</li>
+  <li>Flyway for database migrations</li>
   <li>Gatling for performance tests</li>
   <li>Unit, integration, acceptance, and smoke testing</li>
   <li>Maven for building the app and running each type of test above</li>
